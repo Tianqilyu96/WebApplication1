@@ -3,14 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApplication1.Models;
 
 namespace WebApplication1.ViewComponents
 {
     public class MonthlySpecials : ViewComponent
     {
-        public string Invoke()
+        private readonly BlogData db;
+
+        public MonthlySpecials(BlogData db)
         {
-            return "sssss";
+            this.db = db;
+        }
+        public IViewComponentResult Invoke()
+        {
+            var specials = db.MonthlySpecials.ToArray();
+            return View(specials);
         }
     }
 }

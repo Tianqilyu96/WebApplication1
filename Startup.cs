@@ -28,7 +28,7 @@ namespace WebApplication1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<FormatService>();
-            services.AddSingleton<FeatureToggles>(x => new FeatureToggles 
+            services.AddSingleton(x => new FeatureToggles 
             { DeveloperExceptions = configuration.GetValue<bool>("FeatureToggles:DevelopementExceptions")});
             services.AddMvc(x => x.EnableEndpointRouting = false);
             services.AddDbContext<BlogData>(options =>
