@@ -1,0 +1,13 @@
+﻿@model WebApplication1.Models.Post
+@inject WebApplication1.Models.FormatService Format
+
+
+<article class="blog-post">
+    <h1>@Model.title</h1>
+    <div class="details">
+        Posted <span>@Format.FormatDate(Model.time)</span> by <span>@Model.name</span>
+    </div>
+    <div class="content">
+        @Model.body
+    </div>
+</article>

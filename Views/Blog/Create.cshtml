@@ -1,0 +1,32 @@
+﻿@model WebApplication1.Models.Post
+@{
+    Layout = "_Layout";
+}
+
+<h1>Create Blog Post</h1>
+<fieldset>
+
+    @using (Html.BeginForm())
+            {
+        @Html.ValidationSummary();
+    <p>
+        @Html.LabelFor(x => x.title)
+        @Html.EditorFor(x => x.title)
+        @Html.ValidationMessageFor(x => x.title)
+        
+        
+
+    </p>
+    <p>
+        @Html.LabelFor(x => x.body)
+        @Html.TextAreaFor(x => x.body)
+        @Html.ValidationMessageFor(x =>x.body)
+    </p>
+
+    <p>
+        <button type="submit">Creat Post</button>
+    </p>
+            }
+
+
+</fieldset>
