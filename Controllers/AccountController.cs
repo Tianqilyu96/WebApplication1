@@ -21,7 +21,7 @@ namespace WebApplication1.Controllers
         _userManager = userManager;
         _signInManager = signInManager;
     }
-
+    [Route("login")]
     public IActionResult Login()
     {
         return View(new LoginView());
