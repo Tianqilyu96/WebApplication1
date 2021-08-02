@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,15 +29,30 @@ namespace WebApplication1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<FormatService>();
+
             services.AddSingleton(x => new FeatureToggles 
             { DeveloperExceptions = configuration.GetValue<bool>("FeatureToggles:DevelopementExceptions")});
+
+            
+
             services.AddMvc(x => x.EnableEndpointRouting = false);
+
             services.AddDbContext<BlogData>(options =>
             {
                 var connection = configuration.GetConnectionString("BlogData");
                 options.UseSqlServer(connection);
             });
+
+            services.AddDbContext<IdentityData>(options =>
+            {
+                var connection = configuration.GetConnectionString("IdentityData");
+                options.UseSqlServer(connection);
+            });
+
             
+            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+        .AddEntityFrameworkStores<IdentityData>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +72,9 @@ namespace WebApplication1
                 }
                 await next();
             });
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseMvc(routes =>
             {

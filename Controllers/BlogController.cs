@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,18 +31,29 @@ namespace WebApplication1.Controllers
             var post = _db.Posts.FirstOrDefault(x => x.Key == key);//find the post
             return View(post);
         }
+
+        [Authorize]
         [HttpGet,Route("create")]
         public IActionResult Create()
         {
             return View();
         }
+
+        [Authorize]
         [HttpPost,Route("create")]
         public IActionResult Create(Post post)
         {
+            if (!ModelState.IsValid) //set some varify
+            {
+                return View();
+            }
+
             post.name = User.Identity.Name;
             post.time = DateTime.Now;
+
             _db.Posts.Add(post);
             _db.SaveChanges(); //save post to database
+
             return RedirectToAction("Post", "Blog", 
                 new { year = post.time.Year, month = post.time.Month, key = post.Key});//redirect to single post page
             

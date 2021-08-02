@@ -86,6 +86,23 @@
       <li><a href="resources.htm" title="Guidance and planning">Resources</a></li>
       <li><a href="explorers.htm" title="Join our community">Explorers</a></li>
       <li><a href="contact.htm" title="Contact and support">Contact</a></li>
+      <li>
+          @if (User.Identity.IsAuthenticated)
+          {
+              <form id="logout" action="@Url.Action("Logout", "Account")" method="POST">
+                  <a href="javascript: $('#logout').submit()" class="last">
+                      Logout
+                      <br /><span class="tagline">@User.Identity.Name</span>
+                  </a>
+              </form>
+          }
+          else
+          {
+              <a href="@Url.Action("Login", "Account")" title="log in" class="last">
+                  Login
+              </a>
+          }
+      </li>
     </ul>
   </section>
   <section id="footerResources">
